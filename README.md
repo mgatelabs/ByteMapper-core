@@ -13,7 +13,7 @@ The one major design choice you will see is shrinking integer values and dealing
 For example here is how a primitive integer (4 bytes, non-null) extra byte is defined.
 
 * (0x80) Is Short Integer?  0 <= Value <= 127 
-* (0x40) Is Negative?
+* (0x40) Short Integer/Is Negative?
 * (0x20) Short Integer
 * (0x10) Short Integer
 * (0x08) Byte Count/Short Integer
