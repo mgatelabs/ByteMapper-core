@@ -18,19 +18,19 @@ Format Definition
 Supported field types
 ------------
 
-*Primitive types*
+**Primitive types**
 
 * int
 * long
 
-*Instance Types*
+**Instance Types**
 
 * Integer
 * Long
 * String
 * byte []
 
-*Special Types*
+**Special Types**
 
 * tag
 * list
@@ -62,66 +62,66 @@ Version 1 Format Specifications
 {} = Single Bit
 () = Referenced Type
 
-*Starting Prefix*
+**Starting Prefix**
 
 &lt;B&gt;&lt;M&gt;&lt;F&gt;(Format Version)(Content Version)(Nullable Size)(Tag Header)(Tag Content)
 
-*Tag Header*
+**Tag Header**
 
 (Nullable Tag Identity)
 
-*Complex Tag Content*
+**Complex Tag Content**
 
 (Nullable Size)(Field)...(Field)
 
-*Simple Tag Content*
+**Simple Tag Content**
 
 (Nullable Size)(Field)
 
-*Version*
+**Version**
 
 {SHRINK}{0}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*Nullable Size*
+**Nullable Size**
 
 {SHRINK}{NULL?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*Nullable Identity*
+**Nullable Identity**
 
 {SHRINK}{STANDARD?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*signed int field (4 bytes)*
+**signed int field (4 bytes)**
 
 {SHRINK}{INVERSE?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*Integer field (4 bytes)*
+**Integer field (4 bytes)**
 
 {SHRINK}{INVERSE?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*signed long field (8 bytes)*
+**signed long field (8 bytes)**
 
 {SHRINK}{INVERSE?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*Long field (8 bytes)*
+**Long field (8 bytes)**
 
 {SHRINK}{INVERSE?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-*String field (UTF-8)*
+**String field (UTF-8)**
 
 (Nullable Size)&lt;Bytes&gt;
 
-*byte [] field*
+**byte [] field**
 
 (Nullable Size)&lt;Bytes&gt;
 
-*FileLink field*
+**FileLink field**
 
 (Nullable Size)&lt;Bytes&gt;
 
-*Tag Field*
+**Tag Field**
 
 (Nullable Size)(Field)
 
-*List Field*
+**List Field**
 
 (Nullable Size)(Size)(Field)...(Field)
