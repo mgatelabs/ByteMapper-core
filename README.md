@@ -15,24 +15,24 @@ The one major design choice you will see is shrinking integer values and dealing
 Format Definition  
 ------------
 
-Supported field types
+Supported POJO Field Types
 ------------
 
 **Primitive types**
 
 * int
-* long
+* long (lng)
 
 **Instance Types**
 
 * Integer
 * Long
 * String
-* byte []
+* byte [] (blob)
 
 **Special Types**
 
-* tag
+* class (tag)
 * list
 * filelink
 
