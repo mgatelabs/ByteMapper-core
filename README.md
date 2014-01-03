@@ -34,6 +34,7 @@ Supported field types
 
 * tag
 * list
+* filelink
 
 Required 3rd Party Libraries
 ------------
@@ -47,6 +48,9 @@ Required 3rd Party Libraries
 Limitations and quirks
 ------------
 
+*FileLink type*
+
+The FileLink is basically a byte [] field that is not loaded into memory.  You may ask, why not load everything?  Sometime you don’t need fifteen megabytes of a twenty meg file loaded.  Instead the FileLink will store the path to the format's input file, a starting position and length.  So when required the field can grab the original file and provide content.
 
 Example
 ============
@@ -82,13 +86,22 @@ Version 1 Format Specifications
 
 {SHRINK}{0}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
+If (Value & 0x80 > 0) : Is Tiny Integer, Version = (Value & 0x7F)
+
 **Null-able Size**
 
 {SHRINK}{NULL?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
+If (Value == 0x40) : Null Identity, Size = -1
+Else If (Value & 0x80 > 0) : Is Tiny Integer, Size = (Value & 0x7F)
+
 **Null-able Identity**
 
-{SHRINK}{STANDARD?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+{STANDARD?}{SHRINK}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+If (Value == 0x20) : Null Identity
+Else If (Value & 0x40 > 0) : Is Tiny Integer, Identity Key = (Value & 0x3F)
+Else If (Value & 0x80 > 0) : Is a built in "simple" tag, Integer, Long, String
 
 **signed int field (4 bytes)**
 
