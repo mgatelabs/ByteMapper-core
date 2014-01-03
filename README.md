@@ -16,6 +16,32 @@ Format Definition
 Supported field types
 ------------
 
+*Primitive types*
+
+* int
+* long
+
+*Instance Types*
+
+* Integer
+* Long
+* String
+* byte []
+
+*Special Types*
+
+* tag
+* list
+
+Required 3rd Party Libraries
+------------
+
+* jackson-annotations (Tested with 2.2.3)
+* jackson-core (Tested with 2.2.3)
+* jackson-databind (Tested with 2.2.3)
+
+* junit (Tested with 3.8.1)
+
 Limitations and quirks
 ------------
 
