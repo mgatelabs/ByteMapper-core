@@ -68,25 +68,25 @@ Version 1 Format Specifications
 
 **Tag Header**
 
-(Nullable Tag Identity)
+(Null-able Tag Identity)
 
 **Complex Tag Content**
 
-(Nullable Size)(Field)...(Field)
+(Null-able Size)(Field)...(Field)
 
 **Simple Tag Content**
 
-(Nullable Size)(Field)
+(Null-able Size)(Field)
 
 **Version**
 
 {SHRINK}{0}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-**Nullable Size**
+**Null-able Size**
 
 {SHRINK}{NULL?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
-**Nullable Identity**
+**Null-able Identity**
 
 {SHRINK}{STANDARD?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
 
