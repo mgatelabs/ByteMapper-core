@@ -71,11 +71,6 @@ Definition Byte Formats (Version 1)
 
 *How a Java Integer (4 bytes, null able) extra byte is defined.*
 
-* (0x80) Is Null?
-* (0x40) Is Short Integer?  0 <= Value <= 63 
-* (0x20) Is Negative?
-* (0x10) Short Integer
-* (0x08) Byte Count/Short Integer
-* (0x04) Byte Count/Short Integer
-* (0x02) Byte Count/Short Integer
-* (0x01) Byte Count/Short Integer
+*How a Java primitive long (8 bytes, non-null) extra byte is defined.*
+
+*How a Java Long (8 bytes, null able) extra byte is defined.*
