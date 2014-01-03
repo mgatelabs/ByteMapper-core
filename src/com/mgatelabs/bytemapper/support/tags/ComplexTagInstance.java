@@ -125,14 +125,9 @@ public class ComplexTagInstance extends BMStreamUtils implements TagInterface{
 
     @Override
     public Object readContent(LimitedInputStream lir, boolean isNullable) throws Exception {
-        final int contentSize;       
-        if (isNullable) {
-            contentSize = BMStreamUtils.readNullableSize(lir);
-            if (contentSize == -1) {
-                return null;
-            }
-        } else {
-            contentSize = BMStreamUtils.readSize(lir);
+        final int contentSize = BMStreamUtils.readNullableSize(lir);
+        if (contentSize == -1) {
+            return null;
         }
         final LimitedInputStream spawn = lir.spawn(contentSize);
         final Object o = getClassInstance();
@@ -144,18 +139,14 @@ public class ComplexTagInstance extends BMStreamUtils implements TagInterface{
 
     @Override
     public void writeContent(OutputStream os, Object target, boolean isNullable) throws Exception {
-        if (target == null && isNullable) {
+        if (target == null) {
             BMStreamUtils.writeNullableSize(os);
         } else {
             ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
             for (FieldInstance field : getFields()) {
                 field.write(baos, target);
             }
-            if (isNullable) {
-                BMStreamUtils.writeNullableSize(os, baos.size(), false);
-            } else {
-                BMStreamUtils.writeSize(os, baos.size());
-            }
+            BMStreamUtils.writeNullableSize(os, baos.size(), false);
             os.write(baos.toByteArray());
             baos.reset();
         }
