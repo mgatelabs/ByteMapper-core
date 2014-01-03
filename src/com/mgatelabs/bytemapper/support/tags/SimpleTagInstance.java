@@ -58,13 +58,10 @@ public class SimpleTagInstance implements TagInterface {
     @Override
     public Object readContent(LimitedInputStream lir, boolean isNullable) throws Exception {
         final int contentSize; 
-        if (isNullable) {
-            contentSize = BMStreamUtils.readNullableSize(lir);
-            if (contentSize == -1) {
-                return null;
-            }
-        } else {
-            contentSize = BMStreamUtils.readSize(lir);
+        
+        contentSize = BMStreamUtils.readNullableSize(lir);
+        if (contentSize == -1) {
+            return null;
         }
 
         type.read(lir.spawn(contentSize), instance, instance);
@@ -83,11 +80,7 @@ public class SimpleTagInstance implements TagInterface {
             ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
             
             type.write(baos, instance, target);
-            if (isNullable) {
-                BMStreamUtils.writeNullableSize(os, baos.size(), false);
-            } else {
-                BMStreamUtils.writeSize(os, baos.size());
-            }
+            BMStreamUtils.writeNullableSize(os, baos.size(), false);
             os.write(baos.toByteArray());
             baos.reset();
         }
