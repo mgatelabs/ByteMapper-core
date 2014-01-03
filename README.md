@@ -48,7 +48,7 @@ Required 3rd Party Libraries
 Limitations and quirks
 ------------
 
-*FileLink type*
+**FileLink type**
 
 The FileLink is basically a byte [] field that is not loaded into memory.  You may ask, why not load everything?  Sometime you don’t need fifteen megabytes of a twenty meg file loaded.  Instead the FileLink will store the path to the format's input file, a starting position and length.  So when required the field can grab the original file and provide content.
 
