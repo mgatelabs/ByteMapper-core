@@ -55,22 +55,73 @@ Example
 Appendix
 ============
 
-Definition Byte Formats (Version 1)
+Version 1 Format Specifications
 ------------
 
-*How a Java primitive int (4 bytes, non-null) extra byte is defined.*
+&lt;&gt; = Single Byte
+{} = Single Bit
+() = Referenced Type
 
-* (0x80) Is Short Integer?  0 <= Value <= 127 
-* (0x40) Short Integer/Is Negative?
-* (0x20) Short Integer
-* (0x10) Short Integer
-* (0x08) Byte Count/Short Integer
-* (0x04) Byte Count/Short Integer
-* (0x02) Byte Count/Short Integer
-* (0x01) Byte Count/Short Integer
+*Starting Prefix*
 
-*How a Java Integer (4 bytes, null able) extra byte is defined.*
+&lt;B&gt;&lt;M&gt;&lt;F&gt;(Format Version)(Content Version)(Nullable Size)(Tag Header)(Tag Content)
 
-*How a Java primitive long (8 bytes, non-null) extra byte is defined.*
+*Tag Header*
 
-*How a Java Long (8 bytes, null able) extra byte is defined.*
+(Nullable Tag Identity)
+
+*Complex Tag Content*
+
+(Nullable Size)(Field)...(Field)
+
+*Simple Tag Content*
+
+(Nullable Size)(Field)
+
+*Version*
+
+{SHRINK}{0}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*Nullable Size*
+
+{SHRINK}{NULL?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*Nullable Identity*
+
+{SHRINK}{STANDARD?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*signed int field (4 bytes)*
+
+{SHRINK}{INVERSE?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*Integer field (4 bytes)*
+
+{SHRINK}{INVERSE?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*signed long field (8 bytes)*
+
+{SHRINK}{INVERSE?}{0}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*Long field (8 bytes)*
+
+{SHRINK}{INVERSE?}{NULL?}{0}{#}{#}{#}{#}&lt;Bytes&gt;
+
+*String field (UTF-8)*
+
+(Nullable Size)&lt;Bytes&gt;
+
+*byte [] field*
+
+(Nullable Size)&lt;Bytes&gt;
+
+*FileLink field*
+
+(Nullable Size)&lt;Bytes&gt;
+
+*Tag Field*
+
+(Nullable Size)(Field)
+
+*List Field*
+
+(Nullable Size)(Size)(Field)...(Field)
