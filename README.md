@@ -55,6 +55,20 @@ The FileLink is basically a byte [] field that is not loaded into memory.  You m
 Example
 ============
 
+In the test code, you can find the following sample files.  The definitions for each class can be found in **sample.js**.
+
+* Sample1
+  * five int fields
+* Sample2
+  * class reference, int, long, string and byte []
+* Sample3
+  * Three file links, one with compression, and three string fields
+* Sample4
+  * int, Integer, long, Long
+* Sample5
+  * List, List&lt;Integer&gt;, List&lt;Sample4&gt;
+
+If you want to see all the classes in action, you can run the JUnit test **TestSampleFormats.java**, and make sure the working directory is set to *test-resources/TestSampleFormats*.
 
 Appendix
 ============
