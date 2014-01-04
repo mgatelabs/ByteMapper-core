@@ -108,14 +108,14 @@ public class FormatIO {
             if (fi != null) {
                 BMResult result = new BMResult(fi, inputFile);
                 // Get the size of everything else, of -1, we have a null instance
-                final int contentSize = BMStreamUtils.readSize(lir);
-                if (contentSize == 0) {
+                final int contentSize = BMStreamUtils.readNullableSize(lir);
+                if (contentSize == -1) {
                     result.success(null, -1);
                 } else {
                     LimitedInputStream contentInputStream = lir.spawn(contentSize);
                     TagInterface tag = fi.readTagHeader(contentInputStream);
                     if (tag != null) {
-                        Object r = tag.readContent(lir, false);
+                        Object r = tag.readContent(lir);
                         result.success(r, tag.getIdentity().getIdentityKey());
                     } else {
                         result.success(null, -1);
@@ -151,13 +151,13 @@ public class FormatIO {
             BMStreamUtils.writeVersion(bos, version);
 
             if (target == null) {
-                BMStreamUtils.writeSize(bos, 0);
+                BMStreamUtils.writeNullableSize(bos);
             } else {
                 ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
                 fi.writeObject(baos, target);
 
                 // The content's full size
-                BMStreamUtils.writeSize(bos, baos.size());
+                BMStreamUtils.writeNullableSize(bos, baos.size());
 
                 // Write out the tag's content
                 bos.write(baos.toByteArray());

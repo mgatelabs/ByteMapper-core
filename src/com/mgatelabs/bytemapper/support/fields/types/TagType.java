@@ -45,7 +45,7 @@ public class TagType extends ComplexBaseType {
         }
 
         if (readTag != null) {
-            o = readTag.readContent(lir, hasKnownTag());
+            o = readTag.readContent(lir);
         } else {
             o = null;
         }
@@ -68,7 +68,7 @@ public class TagType extends ComplexBaseType {
 
         // Make sure we found a tag to write
         if (writeTag != null) {
-            writeTag.writeContent(bos, insideTarget, hasKnownTag());
+            writeTag.writeContent(bos, insideTarget);
         }
     }
 }

@@ -47,7 +47,7 @@ public class ListType extends ComplexBaseType {
 
         final LimitedInputStream limiter = lir.spawn(contentSize);
 
-        final int itemCount = BMStreamUtils.readSize(limiter);
+        final int itemCount = BMStreamUtils.readNullableSize(limiter);
 
         final List l = hasKnownTag() ? getList(getKnownTag().getClassReference(), itemCount) : new ArrayList(itemCount);
 
@@ -65,7 +65,7 @@ public class ListType extends ComplexBaseType {
             final Object o;
 
             if (readTag != null) {
-                o = readTag.readContent(lir, hasKnownTag());
+                o = readTag.readContent(lir);
             } else {
                 o = null;
             }
@@ -92,7 +92,7 @@ public class ListType extends ComplexBaseType {
 
         final ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
 
-        BMStreamUtils.writeSize(baos, l.size());
+        BMStreamUtils.writeNullableSize(baos, l.size());
 
         for (int i = 0; i < l.size(); i++) {
 
@@ -107,12 +107,12 @@ public class ListType extends ComplexBaseType {
             }
 
             if (writeTag != null) {
-                writeTag.writeContent(baos, insideTarget, hasKnownTag());
+                writeTag.writeContent(baos, insideTarget);
             }
         }
 
         // Write total size;
-        BMStreamUtils.writeNullableSize(os, baos.size(), false);
+        BMStreamUtils.writeNullableSize(os, baos.size());
         os.write(baos.toByteArray());
         baos.reset();
 

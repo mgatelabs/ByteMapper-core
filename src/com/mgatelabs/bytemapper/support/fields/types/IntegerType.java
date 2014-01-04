@@ -60,7 +60,7 @@ public class IntegerType extends SimpleBaseType {
                 bos.write(0x80 | (value & 0x7F));
             } // Expanded number
             else {
-                final byte[] valueBytes = BMStreamUtils.getIntegerBytes(value);
+                final byte[] valueBytes = BMStreamUtils.getBytes(value);
                 final boolean negative = value < 0;
                 int byteCount = BMStreamUtils.getByteCount(valueBytes, negative ? -1 : 0);
                 bos.write(((negative ? 0x20 : 0) + byteCount) & 0xFF);

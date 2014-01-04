@@ -147,13 +147,13 @@ public class FormatInstance {
         if (tag == null) {
             return null;
         }
-        return tag.readContent(lir, false);
+        return tag.readContent(lir);
     }
     
     public void writeObject(OutputStream os, Object target) throws Exception {
         TagInterface tag = writeTagHeader(os, target);
         if (tag != null) {
-            tag.writeContent(os, target, false);
+            tag.writeContent(os, target);
         }
     }
     

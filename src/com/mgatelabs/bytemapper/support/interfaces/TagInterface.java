@@ -23,7 +23,7 @@ public interface TagInterface {
     
     public IdentityInstance getIdentity();
     
-    public Object readContent(LimitedInputStream lir, boolean isNullable) throws Exception;
+    public Object readContent(LimitedInputStream lir) throws Exception;
 
-    public void writeContent(OutputStream os, Object target, boolean iNullable) throws Exception;
+    public void writeContent(OutputStream os, Object target) throws Exception;
 }

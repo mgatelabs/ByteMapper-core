@@ -60,7 +60,7 @@ public class LngType extends SimpleBaseType {
         }
         // Expaned number
         else {
-            final byte [] valueBytes = BMStreamUtils.getLongBytes(value);
+            final byte [] valueBytes = BMStreamUtils.getBytes(value);
             final boolean negative = value < 0;
             int byteCount = BMStreamUtils.getByteCount(valueBytes, negative ? -1 : 0);
             bos.write(((negative ? 0x40 : 0) + byteCount) & 0xFF);

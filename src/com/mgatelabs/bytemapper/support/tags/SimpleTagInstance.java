@@ -56,7 +56,7 @@ public class SimpleTagInstance implements TagInterface {
     }
     
     @Override
-    public Object readContent(LimitedInputStream lir, boolean isNullable) throws Exception {
+    public Object readContent(LimitedInputStream lir) throws Exception {
         final int contentSize; 
         
         contentSize = BMStreamUtils.readNullableSize(lir);
@@ -70,8 +70,8 @@ public class SimpleTagInstance implements TagInterface {
     }
 
     @Override
-    public void writeContent(OutputStream os, Object target, boolean isNullable) throws Exception {        
-        if (target == null && isNullable) {
+    public void writeContent(OutputStream os, Object target) throws Exception {
+        if (target == null) {
             BMStreamUtils.writeNullableSize(os);
         } else {
             // Update the instances value
