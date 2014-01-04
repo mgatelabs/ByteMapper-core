@@ -39,7 +39,8 @@ public class TestSampleFormats extends TestCase {
                 .addKnownClass(Sample2.class)
                 .addKnownClass(Sample3.class)
                 .addKnownClass(Sample4.class)
-                .addKnownClass(Sample5.class);
+                .addKnownClass(Sample5.class)
+                .addKnownClass(Sample6.class);
         // Make the new format
         fio = new FormatIO(fl, new File("sample.js")).init();
     }
@@ -538,5 +539,37 @@ public class TestSampleFormats extends TestCase {
         assertEquals(0, s5.getList1().size());
         assertEquals(0, s5.getList2().size());
         assertEquals(0, s5.getList3().size());
+    }
+
+    public void testEnum1() throws Exception {
+        Sample6 s6;
+        int index = 16;
+
+        System.out.println("Write" + index);
+
+        s6 = new Sample6();
+        s6.setEnum1(SampleEnum1.ALPHA);
+        s6.setEnum2(SampleEnum1.BETA);
+        s6.setEnum3(null);
+
+        fio.save(new File("sample"+index+".out"), s6, 1);
+
+        System.out.println("Read" + index);
+
+        BMResult fr = fio.load(new File("sample"+index+".out"));
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(6, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        s6 = (Sample6) fr.getObjectInstance();
+
+        assertNotNull(s6.getEnum1());
+        assertNotNull(s6.getEnum2());
+        assertNull(s6.getEnum3());
+
+        assertEquals(SampleEnum1.ALPHA, s6.getEnum1());
+        assertEquals(SampleEnum1.BETA, s6.getEnum2());
     }
 }

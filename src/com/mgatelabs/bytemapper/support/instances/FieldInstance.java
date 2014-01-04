@@ -92,7 +92,19 @@ public class FieldInstance implements FieldInterface{
     public void setType(AbstractBaseType type) {
         this.type = type;
     }
-    
+
+    // Getters
+
+    @Override
+    public String getEnumValue(Object instance) throws Exception {
+        Class<?> returnEnumClass = getReadMethod().getReturnType();
+        Object value = getObjectValue(instance);
+        if (value != null) {
+            return value.toString();
+        }
+        return null;
+    }
+
     @Override
     public String getStringValue(Object instance) throws Exception {
         return (String) getReadMethod().invoke(instance);
@@ -121,6 +133,18 @@ public class FieldInstance implements FieldInterface{
     @Override
     public int getIntValue(Object instance) throws Exception {
         return (int) getReadMethod().invoke(instance);
+    }
+
+    // Setters
+
+    @Override
+    public void setEnumValue(Object instance, String value) throws Exception {
+        if (value == null) {
+            setObjectValue(instance, null);
+        } else {
+            Class<?> returnEnumClass = getReadMethod().getReturnType();
+            setObjectValue(instance, Enum.valueOf((Class<Enum>)returnEnumClass, value));
+        }
     }
 
     @Override

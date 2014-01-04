@@ -43,6 +43,9 @@ public class TypeFactory {
         
         // java.util.List
         addType(new ListType());
+
+        // Enums
+        addType(new EnumType());
         
         // Byte Arrays
         addType(new BlobType());

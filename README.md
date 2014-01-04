@@ -32,9 +32,10 @@ Supported POJO Field Types
 
 **Special Types**
 
-* class (tag)
-* list
+* class (tag or tag/tagName)
+* list (list or list/tagName)
 * filelink
+* enum
 
 Required 3rd Party Libraries
 ------------

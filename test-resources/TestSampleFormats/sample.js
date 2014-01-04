@@ -273,49 +273,94 @@
 		},
 		
 		{
-			"name": "Sample5",
-			"description": "",
-			"identity": "5",
-			"min": "1",
-			"max": "0",
-			"fields": [
-				{
-					"name": "list1",
-					"description": "",
-					"type": "list",
-					"min": "1",
-					"max": "0",
-					"required": "false",
-					"properties": {
-						
-					}
-				},
-				{
-					"name": "list2",
-					"description": "",
-					"type": "list/integer",
-					"min": "1",
-					"max": "0",
-					"required": "false",
-					"properties": {
+         			"name": "Sample5",
+         			"description": "",
+         			"identity": "5",
+         			"min": "1",
+         			"max": "0",
+         			"fields": [
+         				{
+         					"name": "list1",
+         					"description": "",
+         					"type": "list",
+         					"min": "1",
+         					"max": "0",
+         					"required": "false",
+         					"properties": {
 
-					}
-				},
-				{
-					"name": "list3",
-					"description": "",
-					"type": "list/Sample4",
-					"min": "1",
-					"max": "0",
-					"required": "false",
-					"properties": {
-					
-					}
-				}
-			],
-			"properties": {
-			}
-		}
+         					}
+         				},
+         				{
+         					"name": "list2",
+         					"description": "",
+         					"type": "list/integer",
+         					"min": "1",
+         					"max": "0",
+         					"required": "false",
+         					"properties": {
+
+         					}
+         				},
+         				{
+         					"name": "list3",
+         					"description": "",
+         					"type": "list/Sample4",
+         					"min": "1",
+         					"max": "0",
+         					"required": "false",
+         					"properties": {
+
+         					}
+         				}
+         			],
+         			"properties": {
+         			}
+         		},
+
+         		{
+                    "name": "Sample6",
+                    "description": "Test Enums",
+                    "identity": "6",
+                    "min": "1",
+                    "max": "0",
+                    "fields": [
+                        {
+                            "name": "enum1",
+                            "description": "",
+                            "type": "enum",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "enum2",
+                            "description": "",
+                            "type": "enum",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "enum3",
+                            "description": "",
+                            "type": "enum",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        }
+                    ],
+                    "properties": {
+                    }
+                }
 		
 	]
 }

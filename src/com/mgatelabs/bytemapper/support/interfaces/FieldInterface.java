@@ -20,14 +20,16 @@ public interface FieldInterface {
     public void write(OutputStream os, Object target) throws Exception;
     
     public String getFieldType();
-    
+
+    public String getEnumValue(Object instance) throws Exception;
     public String getStringValue(Object instance) throws Exception;
     public Object getObjectValue(Object instance) throws Exception;
     public Long getLongValue(Object instance) throws Exception;
     public Integer getIntegerValue(Object instance) throws Exception;
     public long getLngValue(Object instance) throws Exception;
     public int getIntValue(Object instance) throws Exception;
-    
+
+    public void setEnumValue(Object instance, String value) throws Exception;
     public void setStringValue(Object instance, String value) throws Exception;
     public void setObjectValue(Object instance, Object value) throws Exception;
     public void setLongValue(Object instance, Long value) throws Exception;
