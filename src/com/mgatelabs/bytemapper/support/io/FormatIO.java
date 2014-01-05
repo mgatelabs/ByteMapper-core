@@ -51,6 +51,11 @@ public class FormatIO {
         return this;
     }
 
+    public FormatIO init(InputStream is) throws Exception {
+        formatDefinition = FormatDefinition.load(is);
+        return this;
+    }
+
     // Types
     public TypeFactory getTypes() {
         return types;
@@ -82,13 +87,17 @@ public class FormatIO {
     public BMResult load(File inputFile) throws Exception {
         long fileSize = inputFile.length();
         FileInputStream fis = new FileInputStream(inputFile);
-        BufferedInputStream bis = new BufferedInputStream(fis, 1024);
-        LimitedInputStream lir = new LimitedInputStream(bis, 0, fileSize);
+        BufferedInputStream bis = new BufferedInputStream(fis, 2048);
+        return load(inputFile, bis, 0, fileSize);
+    }
+
+    public BMResult load(File linkTo, InputStream is, long offset, long length) throws Exception {
+        LimitedInputStream lir = new LimitedInputStream(is, offset, length);
         try {
 
             for (byte desiredByte : CONTENT_PREFIX) {
                 if (lir.read() != desiredByte) {
-                    throw new Exception("Error, the provided file " + inputFile.getName() + " did not start with required prefix");
+                    throw new Exception("Error, the provided input did not start with required prefix");
                 }
             }
 
@@ -102,15 +111,15 @@ public class FormatIO {
             FormatInstance fi = getFormatInstance(contentVersion);
 
             // Make sure we can link back to the current file
-            types.initLink(inputFile);
+            types.initLink(linkTo);
 
             // Make sure we have a format instance to work with
             if (fi != null) {
-                BMResult result = new BMResult(fi, inputFile);
+                BMResult result = new BMResult(fi, linkTo);
                 // Get the size of everything else, of -1, we have a null instance
                 final int contentSize = BMStreamUtils.readNullableSize(lir);
                 if (contentSize == -1) {
-                    result.success(null, -1);
+                    result.success(null, 0);
                 } else {
                     LimitedInputStream contentInputStream = lir.spawn(contentSize);
                     TagInterface tag = fi.readTagHeader(contentInputStream);
@@ -118,7 +127,7 @@ public class FormatIO {
                         Object r = tag.readContent(lir);
                         result.success(r, tag.getIdentity().getIdentityKey());
                     } else {
-                        result.success(null, -1);
+                        result.success(null, 0);
                     }
                 }
                 return result;
@@ -127,13 +136,17 @@ public class FormatIO {
             }
 
         } finally {
-            fis.close();
+            lir.close();
         }
     }
 
     public void save(File saveTo, Object target, int version) throws Exception {
         FileOutputStream fos = new FileOutputStream(saveTo);
         BufferedOutputStream bos = new BufferedOutputStream(fos, 1024);
+        save(bos, target, version);
+    }
+
+    public void save(OutputStream os, Object target, int version) throws Exception {
         try {
             FormatInstance fi = getFormatInstance(version);
             // Clear any links
@@ -141,30 +154,30 @@ public class FormatIO {
 
             // Identifier
             for (byte p: CONTENT_PREFIX) {
-                bos.write(p);
+                os.write(p);
             }
 
             // File Version
-            BMStreamUtils.writeVersion(bos, 1);
+            BMStreamUtils.writeVersion(os, 1);
 
             // Content Version
-            BMStreamUtils.writeVersion(bos, version);
+            BMStreamUtils.writeVersion(os, version);
 
             if (target == null) {
-                BMStreamUtils.writeNullableSize(bos);
+                BMStreamUtils.writeNullableSize(os);
             } else {
-                ByteArrayOutputStream baos = new ByteArrayOutputStream(1024);
-                fi.writeObject(baos, target);
+                ByteArrayOutputStream bufferedContent = new ByteArrayOutputStream(2048);
+                fi.writeObject(bufferedContent, target);
 
                 // The content's full size
-                BMStreamUtils.writeNullableSize(bos, baos.size());
+                BMStreamUtils.writeNullableSize(os, bufferedContent.size());
 
                 // Write out the tag's content
-                bos.write(baos.toByteArray());
+                os.write(bufferedContent.toByteArray());
             }
         } finally {
-            bos.flush();
-            bos.close();
+            os.flush();
+            os.close();
         }
     }
 }

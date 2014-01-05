@@ -19,7 +19,7 @@ public class LimitedInputStream extends BufferedInputStream {
     long byteLimit, bytesRead, offset;
     InputStream is;
     
-    public LimitedInputStream(BufferedInputStream in, long offset, long limit) {
+    public LimitedInputStream(InputStream in, long offset, long limit) {
         super(in);
         is = in;
         byteLimit = limit;

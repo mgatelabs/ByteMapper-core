@@ -206,7 +206,7 @@ public class TestSampleFormats extends TestCase {
         
         assertNotNull(fr);
         assertTrue(fr.isReady());
-        assertEquals(fr.getObjectIdentity(), -1);
+        assertEquals(fr.getObjectIdentity(), 0);
         assertNull(fr.getObjectInstance());
     }
     

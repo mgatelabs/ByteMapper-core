@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import java.io.File;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -36,6 +37,18 @@ public class FormatDefinition extends AbstractDefinition {
         ObjectMapper mapper = new ObjectMapper();
         FormatDefinition def;
         def = mapper.readValue(input, FormatDefinition.class);
+        def.sanity();
+        return def;
+    }
+
+    public static FormatDefinition load(InputStream is) throws Exception {
+        ObjectMapper mapper = new ObjectMapper();
+        FormatDefinition def;
+        try {
+        def = mapper.readValue(is, FormatDefinition.class);
+        } finally {
+            is.close();
+        }
         def.sanity();
         return def;
     }
