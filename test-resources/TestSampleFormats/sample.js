@@ -360,6 +360,51 @@
                     ],
                     "properties": {
                     }
+                },
+
+                {
+                    "name": "Sample7",
+                    "description": "Test Dates",
+                    "identity": "7",
+                    "min": "1",
+                    "max": "0",
+                    "fields": [
+                        {
+                            "name": "d1",
+                            "description": "",
+                            "type": "date",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "d2",
+                            "description": "",
+                            "type": "date",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "d3",
+                            "description": "",
+                            "type": "date",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        }
+                    ],
+                    "properties": {
+                    }
                 }
 		
 	]

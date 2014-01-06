@@ -40,7 +40,10 @@ public class TypeFactory {
         
         // java.lang.String
         addType(new StringType());
-        
+
+        // java.uil.Date
+        addType(new DateType());
+
         // java.util.List
         addType(new ListType());
 

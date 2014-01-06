@@ -15,8 +15,7 @@ import com.mgatelabs.bytemapper.util.loaders.SimpleFormatLoader;
 import junit.framework.TestCase;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  *
@@ -40,7 +39,9 @@ public class TestSampleFormats extends TestCase {
                 .addKnownClass(Sample3.class)
                 .addKnownClass(Sample4.class)
                 .addKnownClass(Sample5.class)
-                .addKnownClass(Sample6.class);
+                .addKnownClass(Sample6.class)
+                .addKnownClass(Sample7.class)
+                ;
         // Make the new format
         fio = new FormatIO(fl, new File("sample.js")).init();
     }
@@ -571,5 +572,37 @@ public class TestSampleFormats extends TestCase {
 
         assertEquals(SampleEnum1.ALPHA, s6.getEnum1());
         assertEquals(SampleEnum1.BETA, s6.getEnum2());
+    }
+
+    public void testDate1() throws Exception {
+        Sample7 s7;
+        int index = 17;
+
+        System.out.println("Write" + index);
+
+        s7 = new Sample7();
+        s7.setD1(new Date());
+        s7.setD2(Calendar.getInstance(TimeZone.getTimeZone("UTC")).getTime());
+        s7.setD3(null);
+
+        fio.save(new File("sample"+index+".out"), s7, 1);
+
+        System.out.println("Read" + index);
+
+        BMResult fr = fio.load(new File("sample"+index+".out"));
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(7, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        Sample7 s7b = (Sample7) fr.getObjectInstance();
+
+        assertNotNull(s7b.getD1());
+        assertNotNull(s7b.getD2());
+        assertNull(s7b.getD3());
+
+        assertEquals(s7.getD1(), s7b.getD1());
+        assertEquals(s7.getD2(), s7b.getD2());
     }
 }
