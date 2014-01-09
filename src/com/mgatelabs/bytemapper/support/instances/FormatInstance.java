@@ -8,10 +8,7 @@ package com.mgatelabs.bytemapper.support.instances;
 import com.mgatelabs.bytemapper.support.definitions.FormatDefinition;
 import com.mgatelabs.bytemapper.support.definitions.TagDefinition;
 import com.mgatelabs.bytemapper.support.factories.TypeFactory;
-import com.mgatelabs.bytemapper.support.fields.types.AbstractBaseType;
-import com.mgatelabs.bytemapper.support.fields.types.IntegerType;
-import com.mgatelabs.bytemapper.support.fields.types.LongType;
-import com.mgatelabs.bytemapper.support.fields.types.StringType;
+import com.mgatelabs.bytemapper.support.fields.types.*;
 import com.mgatelabs.bytemapper.support.interfaces.TagInterface;
 import com.mgatelabs.bytemapper.support.io.streams.LimitedInputStream;
 import com.mgatelabs.bytemapper.support.tags.ComplexTagInstance;
@@ -20,10 +17,7 @@ import com.mgatelabs.bytemapper.util.BFLTag;
 import com.mgatelabs.bytemapper.util.BMStreamUtils;
 
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  *
@@ -84,6 +78,7 @@ public class FormatInstance {
         addStandardTag(Integer.class, new IntegerType(), 1);
         addStandardTag(Long.class, new LongType(), 2);
         addStandardTag(String.class, new StringType(), 3);
+        addStandardTag(Date.class, new DateType(), 4);
     }
     
     public void addStandardTag(Class reference, AbstractBaseType type, int identity) {

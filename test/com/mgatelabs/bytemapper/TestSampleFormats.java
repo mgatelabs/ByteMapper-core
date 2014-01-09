@@ -473,6 +473,7 @@ public class TestSampleFormats extends TestCase {
         s4.setLong2(new Long(4));
         
         s5.getList1().add("Hello World");
+        s5.getList1().add(new Date());
         s5.getList2().add(new Integer(1));
         s5.getList3().add(s4);
         
@@ -486,22 +487,23 @@ public class TestSampleFormats extends TestCase {
         assertTrue(fr.isReady());
         assertEquals(fr.getObjectIdentity(), 5);
         assertNotNull(fr.getObjectInstance());
+
+        Sample5 s5r = (Sample5) fr.getObjectInstance();
         
-        s5 = (Sample5) fr.getObjectInstance();
+        assertNotNull(s5r.getList1());
+        assertNotNull(s5r.getList2());
+        assertNotNull(s5r.getList3());
         
-        assertNotNull(s5.getList1());
-        assertNotNull(s5.getList2());
-        assertNotNull(s5.getList3());
+        assertEquals(2, s5r.getList1().size());
+        assertEquals(1, s5r.getList2().size());
+        assertEquals(1, s5r.getList3().size());
         
-        assertEquals(1, s5.getList1().size());
-        assertEquals(1, s5.getList2().size());
-        assertEquals(1, s5.getList3().size());
+        assertEquals("Hello World", s5r.getList1().get(0));
+        assertEquals(s5.getList1().get(1), s5r.getList1().get(1));
+
+        assertEquals(new Integer(1), s5r.getList2().get(0));
         
-        assertEquals("Hello World", s5.getList1().get(0));
-        
-        assertEquals(new Integer(1), s5.getList2().get(0));
-        
-        s4 = s5.getList3().get(0);
+        s4 = s5r.getList3().get(0);
         
         assertEquals(1, s4.getInt1());
         assertEquals(new Integer(2), s4.getInt2());
