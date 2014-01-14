@@ -6,3 +6,6 @@
 *.war
 *.ear
 *.out
+.idea*
+out*
+*manifest.mf
