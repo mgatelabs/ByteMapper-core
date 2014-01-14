@@ -5,6 +5,11 @@ Byte Mapper, BM, is a basic mapper to read/write POJO instances to a very compre
 
 I would not use this right now, its still under early alpha development.
 
+Java Target 
+------------
+
+Java 7
+
 Format Design
 ------------
 
