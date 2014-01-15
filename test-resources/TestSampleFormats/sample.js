@@ -405,6 +405,77 @@
                     ],
                     "properties": {
                     }
+                },
+
+                {
+                    "name": "NoiseSample",
+                    "description": "Data with noise",
+                    "identity": "8",
+                    "min": "1",
+                    "max": "0",
+                    "fields": [
+                        {
+                            "name": "-",
+                            "description": "",
+                            "type": "noise",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+                                "min":"5",
+                                "max":"10"
+                            }
+                        },
+                        {
+                            "name": "-",
+                            "description": "",
+                            "type": "noise",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+                                "min":"5",
+                                "max":"10"
+                            }
+                        },
+                        {
+                            "name": "-",
+                            "description": "",
+                            "type": "noise",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+                                "min":"5",
+                                "max":"100"
+                            }
+                        },
+                        {
+                            "name": "sample",
+                            "description": "",
+                            "type": "string",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "-",
+                            "description": "",
+                            "type": "noise",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+                                "min":"5",
+                                "max":"10"
+                            }
+                        }
+                    ],
+                    "properties": {
+                    }
                 }
 		
 	]

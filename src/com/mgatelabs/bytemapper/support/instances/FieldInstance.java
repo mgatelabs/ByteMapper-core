@@ -37,6 +37,14 @@ public class FieldInstance implements FieldInterface{
         this.ready = this.readMethod != null && this.writeMethod != null;
         type = null;
     }
+
+    public FieldInstance(FieldDefinition definition) {
+        this.readMethod = null;
+        this.writeMethod = null;
+        this.definition = definition;
+        this.ready = true;
+        type = null;
+    }
     
     public FieldInstance(Class reference, String value) {
         final PropertyDescriptor pd;

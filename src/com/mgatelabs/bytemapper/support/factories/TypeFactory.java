@@ -52,6 +52,9 @@ public class TypeFactory {
         
         // Byte Arrays
         addType(new BlobType());
+
+        // Junk Noise
+        addType(new NoiseType());
         
         // Objects-Tags
         addType(new TagType());

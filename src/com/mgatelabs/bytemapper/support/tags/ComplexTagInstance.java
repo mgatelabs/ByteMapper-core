@@ -23,10 +23,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author MiniMegaton
  */
-public class ComplexTagInstance extends BMStreamUtils implements TagInterface{
+public class ComplexTagInstance extends BMStreamUtils implements TagInterface {
 
     private Class reference;
     private TagDefinition definition;
@@ -62,7 +61,7 @@ public class ComplexTagInstance extends BMStreamUtils implements TagInterface{
     public Class getClassReference() {
         return reference;
     }
-    
+
     @Override
     public Object getClassInstance() throws Exception {
         return reference.newInstance();
@@ -73,10 +72,16 @@ public class ComplexTagInstance extends BMStreamUtils implements TagInterface{
             // Make sure the field is in this version
             if (fieldDefinition.isVersioned(version)) {
                 try {
-                    PropertyDescriptor pd = new PropertyDescriptor(fieldDefinition.getName(), reference);//
-                    if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
-                        FieldInstance instanceField = new FieldInstance(fieldDefinition, pd.getReadMethod(), pd.getWriteMethod());
+                    // Names equal to - ignore naming constraints, but you have to be careful
+                    if ("-".equals(fieldDefinition.getName())) {
+                        FieldInstance instanceField = new FieldInstance(fieldDefinition, null, null);
                         fields.add(instanceField);
+                    } else {
+                        PropertyDescriptor pd = new PropertyDescriptor(fieldDefinition.getName(), reference);//
+                        if (pd.getReadMethod() != null && pd.getWriteMethod() != null) {
+                            FieldInstance instanceField = new FieldInstance(fieldDefinition, pd.getReadMethod(), pd.getWriteMethod());
+                            fields.add(instanceField);
+                        }
                     }
                 } catch (Exception ex) {
                     Logger.getLogger(ComplexTagInstance.class.getName()).log(Level.SEVERE, null, ex);

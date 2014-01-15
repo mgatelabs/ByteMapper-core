@@ -41,6 +41,7 @@ public class TestSampleFormats extends TestCase {
                 .addKnownClass(Sample5.class)
                 .addKnownClass(Sample6.class)
                 .addKnownClass(Sample7.class)
+                .addKnownClass(NoiseSample.class)
                 ;
         // Make the new format
         fio = new FormatIO(fl, new File("sample.js")).init();
@@ -606,5 +607,32 @@ public class TestSampleFormats extends TestCase {
 
         assertEquals(s7.getD1(), s7b.getD1());
         assertEquals(s7.getD2(), s7b.getD2());
+    }
+
+    public void testNoiseSample1() throws Exception {
+        NoiseSample noiseOut;
+        int index = 18;
+
+        System.out.println("Write" + index);
+
+        noiseOut = new NoiseSample();
+        noiseOut.setSample("GOOD DATA");
+
+        fio.save(new File("sample" + index + ".out"), noiseOut, 1);
+
+        System.out.println("Read" + index);
+
+        BMResult fr = fio.load(new File("sample"+index+".out"));
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(8, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        NoiseSample noiseIn = (NoiseSample) fr.getObjectInstance();
+
+        assertNotNull(noiseIn.getSample());
+
+        assertEquals(noiseOut.getSample(), noiseIn.getSample());
     }
 }
