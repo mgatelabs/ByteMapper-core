@@ -13,46 +13,63 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
 /**
- *
  * @author MiniMegaton
  */
 public class FileLink {
     private File sourceFile;
-    private byte [] sourceBytes;
+    private byte[] sourceBytes;
     private long offset, length;
     private boolean linked;
     private boolean compressed;
-    
+
     public FileLink() {
         linked = false;
         sourceFile = null;
         compressed = false;
-        sourceBytes = new byte [0];
+        sourceBytes = new byte[0];
         offset = 0;
         length = 0;
     }
-    
+
     public FileLink linkToFile(File target) {
         sourceFile = target;
-        sourceBytes = new byte [0];
+        sourceBytes = new byte[0];
         offset = 0;
         length = target.length();
         linked = true;
         this.compressed = false;
         return this;
     }
-    
+
     public FileLink linkToFile(File target, long offset, long length, boolean compressed) {
         sourceFile = target;
-        sourceBytes = new byte [0];
+        sourceBytes = new byte[0];
         this.offset = offset;
         this.length = length;
         this.compressed = compressed;
         linked = true;
         return this;
     }
-    
-    public FileLink linkToBlob(byte [] bytes) {
+
+    public FileLink linkToStream(InputStream is, long offset, long length, boolean compressed) throws Exception {
+        sourceFile = null;
+        sourceBytes = new byte[(int) length];
+        BoundedInputStream bis = new BoundedInputStream(is, offset, length);
+        ByteArrayOutputStream bos = new ByteArrayOutputStream(1024);
+        if (compressed) {
+            BMStreamUtils.copyStream(new GZIPInputStream(bis), bos, false);
+        } else {
+            BMStreamUtils.copyStream(bis, bos, false);
+        }
+        sourceBytes = bos.toByteArray();
+        this.offset = 0;
+        this.length = sourceBytes.length;
+        this.compressed = compressed;
+        linked = false;
+        return this;
+    }
+
+    public FileLink linkToBlob(byte[] bytes) {
         sourceFile = null;
         linked = false;
         sourceBytes = bytes;
@@ -77,13 +94,13 @@ public class FileLink {
             return new ByteArrayInputStream(sourceBytes);
         }
     }
-    
-    public byte [] getBytes() throws Exception {
+
+    public byte[] getBytes() throws Exception {
         if (linked) {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream((int)getLength());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream((int) getLength());
             InputStream is = getInputStream();
             int count;
-            byte [] bytes = new byte[1024];
+            byte[] bytes = new byte[1024];
             while ((count = is.read(bytes)) > 0) {
                 baos.write(bytes, 0, count);
             }
@@ -92,13 +109,13 @@ public class FileLink {
             return sourceBytes;
         }
     }
-    
-    public byte [] getCompressedBytes() throws Exception {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream((int)getLength());
+
+    public byte[] getCompressedBytes() throws Exception {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream((int) getLength());
         GZIPOutputStream zip = new GZIPOutputStream(baos);
         InputStream is = getInputStream();
         int count;
-        byte [] bytes = new byte[1024];
+        byte[] bytes = new byte[1024];
         while ((count = is.read(bytes)) > 0) {
             zip.write(bytes, 0, count);
         }
@@ -106,7 +123,7 @@ public class FileLink {
         zip.close();
         return baos.toByteArray();
     }
-    
+
     public File getSourceFile() {
         return sourceFile;
     }

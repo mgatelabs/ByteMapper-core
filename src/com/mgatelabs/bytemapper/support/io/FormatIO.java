@@ -92,7 +92,7 @@ public class FormatIO {
     }
 
     public BMResult load(File linkTo, InputStream is, long offset, long length) throws Exception {
-        LimitedInputStream lir = new LimitedInputStream(is, offset, length);
+        LimitedInputStream lir = new LimitedInputStream(is, offset, length, linkTo != null);
         try {
 
             for (byte desiredByte : CONTENT_PREFIX) {

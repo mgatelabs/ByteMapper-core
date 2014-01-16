@@ -23,7 +23,7 @@ public class BoundedInputStream extends BufferedInputStream {
     long length;
     
     public BoundedInputStream(InputStream is, long offset, long length) {
-        super(is, 1024);
+        super(is, (int)length);
         try {
             this.skip(offset);
         } catch (IOException ex) {
@@ -56,25 +56,25 @@ public class BoundedInputStream extends BufferedInputStream {
         } else {
             read = super.read(bytes);
         }
-        
-        position += read;
-        
-        return read;
+
+        if (read > 0) {
+            position += read;
+            return read;
+        }
+        return -1;
     }
     
     @Override
     public synchronized int read(byte[] bytes, int i, int i1) throws IOException {
-        int read = 0;
+        int read;
         if (position > length) {
-            read = 0;
+            read = -1;
         } else if (position + i1 > length) {
             read = super.read(bytes, i, (int)(length - position));
         } else {
             read = super.read(bytes, i, i1);
         }
-        
-        //position += read;
-        
+
         return read;
     }
 }

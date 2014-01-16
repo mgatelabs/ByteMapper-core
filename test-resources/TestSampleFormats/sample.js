@@ -476,6 +476,53 @@
                     ],
                     "properties": {
                     }
+                },
+
+                {
+                    "name": "SampleFileLink",
+                    "description": "Data with links",
+                    "identity": "9",
+                    "min": "1",
+                    "max": "0",
+                    "fields": [
+
+                        {
+                            "name": "f1",
+                            "description": "",
+                            "type": "filelink",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "f2",
+                            "description": "",
+                            "type": "filelink",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+
+                            }
+                        },
+                        {
+                            "name": "f3",
+                            "description": "",
+                            "type": "filelink",
+                            "min": "1",
+                            "max": "0",
+                            "required": "false",
+                            "properties": {
+                                "compress": "true"
+                            }
+                        }
+
+                    ],
+                    "properties": {
+                    }
                 }
 		
 	]

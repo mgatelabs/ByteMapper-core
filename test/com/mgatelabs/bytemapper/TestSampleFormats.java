@@ -14,6 +14,8 @@ import com.mgatelabs.bytemapper.util.FileLink;
 import com.mgatelabs.bytemapper.util.loaders.SimpleFormatLoader;
 import junit.framework.TestCase;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.*;
 
@@ -42,6 +44,7 @@ public class TestSampleFormats extends TestCase {
                 .addKnownClass(Sample6.class)
                 .addKnownClass(Sample7.class)
                 .addKnownClass(NoiseSample.class)
+                .addKnownClass(SampleFileLink.class)
                 ;
         // Make the new format
         fio = new FormatIO(fl, new File("sample.js")).init();
@@ -634,5 +637,111 @@ public class TestSampleFormats extends TestCase {
         assertNotNull(noiseIn.getSample());
 
         assertEquals(noiseOut.getSample(), noiseIn.getSample());
+    }
+
+    // FILE LINKS
+
+    public void testFileLinks() throws Exception {
+        SampleFileLink a, b;
+        int index = 19;
+
+        System.out.println("Write" + index);
+
+        a = new SampleFileLink();
+        a.setF1(null);
+        a.setF2(null);
+        a.setF3(null);
+
+        fio.save(new File("sample" + index + ".out"), a, 1);
+
+        System.out.println("Read" + index);
+
+        BMResult fr = fio.load(new File("sample"+index+".out"));
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(9, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        b = (SampleFileLink) fr.getObjectInstance();
+
+        assertNull(b.getF1());
+        assertNull(b.getF2());
+        assertNull(b.getF3());
+    }
+
+    public void testFileLinks2() throws Exception {
+        SampleFileLink a, b;
+        int index =20;
+
+        System.out.println("Write" + index);
+
+        a = new SampleFileLink();
+        a.setF1(new FileLink().linkToBlob(new byte[] {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08}));
+        a.setF2(new FileLink().linkToFile(new File("123456789.txt")));
+        a.setF3(new FileLink().linkToBlob(new byte[] {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08}));
+
+        fio.save(new File("sample" + index + ".out"), a, 1);
+
+        System.out.println("Read" + index);
+
+        BMResult fr = fio.load(new File("sample"+index+".out"));
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(9, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        b = (SampleFileLink) fr.getObjectInstance();
+
+        assertNotNull(b.getF1());
+        assertNotNull(b.getF2());
+        assertNotNull(b.getF3());
+
+        assertByteArrays(a.getF1().getBytes(), b.getF1().getBytes());
+        assertByteArrays(a.getF2().getBytes(), b.getF2().getBytes());
+        assertByteArrays(a.getF3().getBytes(), b.getF3().getBytes());
+    }
+
+    public void testFileLinks3() throws Exception {
+        SampleFileLink a, b;
+        int index =21;
+
+        System.out.println("Write " + index);
+
+        a = new SampleFileLink();
+        a.setF1(new FileLink().linkToBlob(new byte[] {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08}));
+        a.setF2(new FileLink().linkToFile(new File("123456789.txt")));
+        a.setF3(new FileLink().linkToBlob(new byte[] {0x01,0x02,0x03,0x04,0x05,0x06,0x07,0x08}));
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        fio.save(bos, a, 1);
+        ByteArrayInputStream bis = new ByteArrayInputStream(bos.toByteArray());
+
+        System.out.println("Read " + index);
+
+        BMResult fr = fio.load(null, bis, 0, bos.size());
+
+        assertNotNull(fr);
+        assertTrue(fr.isReady());
+        assertEquals(9, fr.getObjectIdentity());
+        assertNotNull(fr.getObjectInstance());
+
+        b = (SampleFileLink) fr.getObjectInstance();
+
+        assertNotNull(b.getF1());
+        assertNotNull(b.getF2());
+        assertNotNull(b.getF3());
+
+        assertByteArrays(a.getF1().getBytes(), b.getF1().getBytes());
+        assertByteArrays(a.getF2().getBytes(), b.getF2().getBytes());
+        assertByteArrays(a.getF3().getBytes(), b.getF3().getBytes());
+    }
+
+    public void assertByteArrays(byte [] target, byte [] test) {
+        assertEquals(target.length, test.length);
+        for (int i = 0; i < target.length; i++) {
+            assertEquals(target[i], test[i]);
+        }
     }
 }

@@ -17,21 +17,20 @@ import java.io.File;
 import java.io.OutputStream;
 
 /**
- *
  * @author MiniMegaton
  */
 public class FileLinkType extends SimpleBaseType {
-    
+
     public static String PARM_COMPRESS = "compress";
-    
+
     private File loadLink;
     boolean compress;
     private FileLinkType parent;
-    
+
     public FileLinkType() {
         super("FileLink", "File Link", "File Linker");
     }
-    
+
     public FileLinkType(FileLinkType parent) {
         this();
         this.parent = parent;
@@ -58,26 +57,30 @@ public class FileLinkType extends SimpleBaseType {
             instance.setObjectValue(target, (FileLink) null);
         } else {
             FileLink link = new FileLink();
-            link.linkToFile(loadLink, lir.getPosition(), contentLength, compress);
+            if (lir.isFileAccess()) {
+                link.linkToFile(loadLink, lir.getPosition(), contentLength, compress);
+                lir.skip(contentLength);
+            } else {
+                link.linkToStream(lir, 0, contentLength, compress);
+            }
             instance.setObjectValue(target, (FileLink) link);
-            lir.skip(contentLength);
         }
     }
 
     @Override
     public void write(OutputStream bos, FieldInterface instance, Object target) throws Exception {
         this.loadLink = parent.getLoadLink();
-        FileLink insideTarget = (FileLink)instance.getObjectValue(target);
+        FileLink insideTarget = (FileLink) instance.getObjectValue(target);
         if (insideTarget == null) {
             BMStreamUtils.writeNullableSize(bos, 0, true);
         } else {
-            byte [] bytes;
+            byte[] bytes;
             if (compress) {
                 bytes = insideTarget.getCompressedBytes();
             } else {
                 bytes = insideTarget.getBytes();
             }
-            
+
             BMStreamUtils.writeNullableSize(bos, bytes.length, false);
             bos.write(bytes);
         }

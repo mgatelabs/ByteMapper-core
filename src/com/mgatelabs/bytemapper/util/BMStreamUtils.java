@@ -8,6 +8,8 @@ package com.mgatelabs.bytemapper.util;
 import com.mgatelabs.bytemapper.support.instances.IdentityInstance;
 import com.mgatelabs.bytemapper.support.io.streams.LimitedInputStream;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 /**
@@ -173,5 +175,19 @@ public abstract class BMStreamUtils {
             }
         }
         return 0;
+    }
+
+    public static void copyStream(InputStream is, OutputStream os, boolean closeInput) throws IOException {
+        try {
+            byte[] bytes = new byte[4096];
+            int numBytes;
+            while ((numBytes = is.read(bytes)) != -1) {
+                os.write(bytes, 0, numBytes);
+            }
+        } finally {
+            if (closeInput) {
+                is.close();
+            }
+        }
     }
 }
