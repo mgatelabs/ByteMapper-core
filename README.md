@@ -41,6 +41,7 @@ Supported POJO Field Types
 * list (list or list/tagName)
 * filelink
 * enum
+* noise (random data)
 
 Required 3rd Party Libraries
 ------------
