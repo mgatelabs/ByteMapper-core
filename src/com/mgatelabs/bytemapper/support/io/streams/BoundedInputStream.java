@@ -6,24 +6,23 @@
 
 package com.mgatelabs.bytemapper.support.io.streams;
 
-import java.io.BufferedInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
  * @author MiniMegaton
  */
-public class BoundedInputStream extends BufferedInputStream {
-    
-    long offset;
-    long position;
-    long length;
-    
+public class BoundedInputStream extends FilterInputStream {
+
+    private long offset;
+    private long position;
+    private long length;
+
     public BoundedInputStream(InputStream is, long offset, long length) {
-        super(is, (int)length);
+        super(is);
         try {
             this.skip(offset);
         } catch (IOException ex) {
@@ -36,13 +35,10 @@ public class BoundedInputStream extends BufferedInputStream {
 
     @Override
     public synchronized int read() throws IOException {
-        
         if (position >= length) {
             return -1;
         }
-        
         position++;
-        
         return super.read();
     }
 
@@ -52,29 +48,27 @@ public class BoundedInputStream extends BufferedInputStream {
         if (position > length) {
             read = 0;
         } else if (position + bytes.length > length) {
-            read = super.read(bytes, 0, (int)(length - position));
+            read = super.read(bytes, 0, (int) (length - position));
         } else {
             read = super.read(bytes);
         }
-
         if (read > 0) {
             position += read;
             return read;
         }
         return -1;
     }
-    
+
     @Override
     public synchronized int read(byte[] bytes, int i, int i1) throws IOException {
         int read;
         if (position > length) {
             read = -1;
         } else if (position + i1 > length) {
-            read = super.read(bytes, i, (int)(length - position));
+            read = super.read(bytes, i, (int) (length - position));
         } else {
             read = super.read(bytes, i, i1);
         }
-
         return read;
     }
 }

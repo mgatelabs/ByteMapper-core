@@ -7,13 +7,14 @@
 package com.mgatelabs.bytemapper.support.io.streams;
 
 import java.io.BufferedInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 /**
  * @author MiniMegaton
  */
-public class LimitedInputStream extends BufferedInputStream {
+public class LimitedInputStream extends FilterInputStream {
 
     private long byteLimit, bytesRead, offset;
     private InputStream is;
